@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  ifc_ci:
+    container_name: ifc-ci
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./:/code
+    ports:
+      - "8000:8000"
+    tty: true
