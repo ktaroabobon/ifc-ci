@@ -2,7 +2,7 @@ from pathlib import Path
 
 import ifcopenshell
 
-from wrapper.element import Quantity
+from ifc_ci.wrapper.element import Quantity
 
 base_dir = Path().resolve()
 data_dir = base_dir / "data"
@@ -11,7 +11,7 @@ SAMPLE_DATA_PATH = data_dir / 'test.ifc'
 
 if __name__ == '__main__':
     ifc_file = ifcopenshell.open(str(SAMPLE_DATA_PATH))
-    products = ifc_file.by_type('IfcBuilding')
+    products = ifc_file.by_type('IfcWall')
     for product in products:
         print(f"product type: {product.is_a()}")
         # print(product.type())

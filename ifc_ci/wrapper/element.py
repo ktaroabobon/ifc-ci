@@ -5,10 +5,6 @@ class BuildingElement(object):
             return
 
 
-
-
-
-
 class Quantity(object):
     @classmethod
     def value(cls, q):
@@ -26,4 +22,3 @@ class Quantity(object):
             return q.WeightValue
         else:
             return
-
