@@ -1,33 +1,27 @@
 """
 建築基準法
 """
-from typing import Optional
-
-from .base_method import StandardMethod
+from . import sub_method
+from .base_method import BaseMethod
 from ..wrapper.element import Quantity
 
-
-class law2_5(StandardMethod):
+class Law2_5(BaseMethod):
     """
     基準法第2条第5号（主要構造部）の判定
     """
 
-    def __init__(self, elements, ifc_file):
+    def __init__(self, ifc_file):
         super().__init__(ifc_file)
-        self.elements = elements
-        self.filtered_elements = list()
-        self.conformity_elements = list()
-        self.not_conformity_elements = list()
 
     @classmethod
-    def main(cls, elements: list):
+    def main(cls, ifc_file) -> list:
         """
         適合判定実行関数
 
         Returns:
             bool: 判定結果
         """
-        target = cls(elements=elements, ifc_file=None)
+        target = cls(ifc_file=ifc_file)
         target.condition()
         target.verification()
 
@@ -42,9 +36,7 @@ class law2_5(StandardMethod):
         """
         target_elements = ["IfcWall", "IfcColumn", "IfcSlab", "IfcBeam", "IfcRoof", "IfcStair"]
 
-        for element in self.elements:
-            if element.is_a() in target_elements:
-                self.filtered_elements.append(element)
+        self.target_elements = self.filter_elements(target_elements)
 
     def verification(self):
         """
@@ -53,33 +45,48 @@ class law2_5(StandardMethod):
         Returns:
 
         """
-        for element in self.filtered_elements:
+        if self.target_elements is None:
+            return
+
+        conformity_elements = list()
+        not_conformity_elements = list()
+
+        for element in self.target_elements:
             for d in element.IsDefinedBy:
                 property_set = d.RelatingPropertyDefinition
                 if hasattr(property_set, "HasProperties"):
                     for property in property_set.HasProperties:
                         if property.is_a('IfcPropertySingleValue') and property.Name == "LoadBearing":
                             if property.NominalValue.wrappedValue:
-                                self.conformity_elements.append(element)
+                                conformity_elements.append(element)
                             else:
-                                self.not_conformity_elements.append(element)
+                                not_conformity_elements.append(element)
+
+        self.conformity_elements = conformity_elements
+        self.not_conformity_elements = not_conformity_elements
 
 
-class law21_1(StandardMethod):
+class Law21_1(BaseMethod):
     """
     基準法第21条第1号（大規模建築の主要構造部）の判定
     """
 
-    def main(self) -> Optional[bool]:
+    def __init__(self, ifc_file):
+        super().__init__(ifc_file)
+
+    @classmethod
+    def main(cls, ifc_file):
         """
         適合判定実行関数
 
         Returns:
             bool: 判定結果
         """
-        if not self.exception() and self.condition():
-            return self.verification()
-        return
+        target = cls(ifc_file=ifc_file)
+        if not target.exception() and target.condition():
+            target.verification()
+
+        return [target.conformity_elements, target.not_conformity_elements, target.exception_elements]
 
     def exception(self):
         """
@@ -198,11 +205,17 @@ class law21_1(StandardMethod):
             flag = True
         return flag
 
-    def verification(self) -> bool:
+    def verification(self):
         """
         基準部分の判定
 
         Returns:
-            bool: 判定結果
         """
-        pass
+        conformity_elements_by109_4, not_conformity_elements_by109_4 = sub_method.Law109_4.main(self.ifc_file)
+        conformity_elements_by109_5, not_conformity_elements_by109_5 = sub_method.Law109_5.main(
+            self.ifc_file,
+            conformity_elements_by109_4
+        )
+
+        self.conformity_elements = conformity_elements_by109_5
+        self.not_conformity_elements = not_conformity_elements_by109_4 + not_conformity_elements_by109_5
