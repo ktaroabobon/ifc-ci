@@ -29,7 +29,7 @@ jobs:
             ${{ runner.os }}-python-cache-
 
       - name: Build the docker-compose
-        run: docker-compose up -d ifc-ci
+        run: docker-compose up -d ifc_ci
 
       - name: test
         run: docker exec ifc-ci /opt/conda/envs/ifcci/bin/python3.8 main.py -s
