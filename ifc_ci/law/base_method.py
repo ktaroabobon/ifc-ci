@@ -12,4 +12,4 @@ class BaseMethod(object):
         for t in target:
             conformity_elements += self.ifc_file.by_type(t)
 
-        return conformity_elements
+        return [conformity_elements, not_conformity_elements]

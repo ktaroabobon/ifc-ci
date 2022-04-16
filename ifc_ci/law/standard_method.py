@@ -5,6 +5,7 @@ from . import sub_method
 from .base_method import BaseMethod
 from ..wrapper.element import Quantity
 
+
 class Law2_5(BaseMethod):
     """
     基準法第2条第5号（主要構造部）の判定
@@ -36,7 +37,7 @@ class Law2_5(BaseMethod):
         """
         target_elements = ["IfcWall", "IfcColumn", "IfcSlab", "IfcBeam", "IfcRoof", "IfcStair"]
 
-        self.target_elements = self.filter_elements(target_elements)
+        self.target_elements = self.filter_elements(target_elements)[0]
 
     def verification(self):
         """
