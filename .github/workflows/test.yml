@@ -1,0 +1,35 @@
+name: test
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - main
+      - develop
+
+
+env:
+  PIP_CACHE_DIR: /tmp/cache/pip_test
+
+jobs:
+  test:
+    name: Law21-1 Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache pip
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.PIP_CACHE_DIR }}
+          key: ${{ runner.os }}-python-cache-${{ hashFiles('./pyproject.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-python-cache-
+
+      - name: Build the docker-compose
+        run: docker-compose up -d ifc_ci
+
+      - name: test
+        run: docker exec ifc-ci /opt/conda/envs/ifcci/bin/python3.8 main.py -s
