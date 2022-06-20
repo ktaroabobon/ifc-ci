@@ -37,9 +37,7 @@ class Law2_5(BaseMethod):
         """
         target_elements = ["IfcWall", "IfcColumn", "IfcSlab", "IfcBeam", "IfcRoof", "IfcStair"]
 
-
         self.target_elements = self.filter_elements(target_elements)[0]
-
 
     def verification(self):
         """
