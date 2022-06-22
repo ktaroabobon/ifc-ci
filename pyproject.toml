@@ -6,6 +6,7 @@ authors = ["keitarowatanabe <ktaroabobon@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
+python-ifcopenshell = "^1.0.5"
 
 [tool.poetry.dev-dependencies]
 

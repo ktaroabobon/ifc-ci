@@ -1,8 +1,19 @@
-package = []
+[[package]]
+name = "python-ifcopenshell"
+version = "1.0.5"
+description = "installable package for ifcopenshell"
+category = "main"
+optional = false
+python-versions = ">=3.9"
 
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "ce2aa767160f871dd3652615ba0a0dceb7733d62eb8cb4665b87f30a562e3adf"
+content-hash = "1a4b39650627cdb65974d3a0b4cd005d67572e7fe667134ae76fb7d2c815f6c3"
 
 [metadata.files]
+python-ifcopenshell = [
+    {file = "python_ifcopenshell-1.0.5-py3-none-macosx_10_15_x86_64.whl", hash = "sha256:3ba3262a5e644f81ec353136c6b7adf5b3f00c76f17c0e78d9d5d87d23ccab62"},
+    {file = "python_ifcopenshell-1.0.5-py3-none-manylinux1_x86_64.whl", hash = "sha256:b6f87229f328625530be2fc6f56b0493cfd77a4dd569f370b1dfaa280c2131fc"},
+    {file = "python_ifcopenshell-1.0.5-py3-none-win_amd64.whl", hash = "sha256:ca31c077388bd16eb23bd82d06d19b85b928edcc11de4f54dde6a41dc882912f"},
+]
