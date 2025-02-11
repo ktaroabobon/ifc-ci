@@ -1,0 +1,8 @@
+{
+    "ifc": "xxxx", // ifcのデータを圧縮しバイナリ化したもの
+    "zipped": true,
+    "metadata": {
+        // レスポンスにも保持される内容
+        "target": "test.ifc"
+    }
+}

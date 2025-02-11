@@ -32,4 +32,4 @@ jobs:
         run: docker-compose up -d ifc_ci
 
       - name: test
-        run: docker exec ifc-ci /opt/conda/envs/ifcci/bin/python3.8 main.py -s
+        run: docker exec ifc-ci /root/.cache/pypoetry/virtualenvs/ifc-ci-MATOk_fk-py3.9/bin/python3.9 main.py -s

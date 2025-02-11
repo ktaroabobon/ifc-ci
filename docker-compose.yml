@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   ifc_ci:
     container_name: ifc-ci
@@ -7,6 +8,10 @@ services:
       dockerfile: ./Dockerfile
     volumes:
       - ./:/code
+      - ${PIP_CACHE_DIR_IFC_CI:-cache-ifc-ci}:/root/.cache
     ports:
       - "8000:8000"
     tty: true
+volumes:
+  cache-ifc-ci:
+

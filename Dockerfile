@@ -1,14 +1,23 @@
-FROM continuumio/miniconda3
+FROM python:3.9
 
 ENV APP_PATH=/code \
     PYTHONPATH=.
 #　開発物のソースコードはcodeデイレクトリ下に配置する
 
-RUN conda create -n ifcci python==3.8
-
-SHELL ["conda", "run", "-n", "ifcci", "/bin/bash", "-c"]
-RUN conda install -c conda-forge -c oce -c dlr-sc -c ifcopenshell ifcopenshell
-
 WORKDIR $APP_PATH
+
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    pip install poetry
+
+
+# install python library
+RUN pip3 install --upgrade pip && \
+    pip3 install --no-cache-dir poetry &&  \
+    rm -rf ~/.cache/pip
+
+COPY . .
+
+RUN poetry install
 
 EXPOSE 8000
